@@ -1,10 +1,6 @@
-# gp-a-starter
+# Databases Final Project
 
-## Guided Practice A - GitHub Practice
-
-Example repository used with the GitHub tutorial assignment
-
-Here is my CS 1110 POTD assignments!
-...
-
-I think they all work... can you check them for me?
+Kathryn Armstrong (kca4ys)
+Ramya Susarla (rs9hh)
+Amatullah Lonandwala (al4ww)
+Palash Shah (ps9cmk)
