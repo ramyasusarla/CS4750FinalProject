@@ -4,7 +4,7 @@ function addStudent($name, $major, $nationality, $email, $hobby)
 {
 	global $db; 
 
-	$query = 'insert student into database';
+	$query = "insert into Student values(:name, :major, :nationality, :email, :hobby)";
 	$statement = $db->prepare($query);
 
 	$first = None;
@@ -31,4 +31,36 @@ function addStudent($name, $major, $nationality, $email, $hobby)
 	$statement->closeCursor();
 
 } 
+
+function getAllStudents()
+{
+	global $db;
+	$query = "select * from Students";
+
+	$statement = $db->prepare($query);
+	$statement->execute();
+
+	$results = $statement->fetchAll();   
+
+	$statement->closeCursor();
+
+	return $results;
+}
+
+function getStudent_byName($name)
+{
+	global $db;
+	$query = "select * from Students where name = :name";
+
+	$statement = $db->prepare($query);
+	$statement->bindValue(':name', $name);
+	$statement->execute();
+
+	$results = $statement->fetch();   
+
+	$statement->closeCursor();
+
+	return $results;	
+}
+
 ?>
