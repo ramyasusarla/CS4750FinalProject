@@ -63,4 +63,15 @@ function getStudent_byName($name)
 	return $results;	
 }
 
+function deleteStudent($name)
+{
+	global $db;
+	
+	$query = "delete from Students where name=:name";
+	$statement = $db->prepare($query); 
+	$statement->bindValue(':name', $name);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
 ?>
