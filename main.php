@@ -35,7 +35,7 @@ function addStudent($name, $major, $nationality, $email, $hobby)
 function getAllStudents()
 {
 	global $db;
-	$query = "select * from Students";
+	$query = "select * from Student";
 
 	$statement = $db->prepare($query);
 	$statement->execute();
@@ -50,7 +50,7 @@ function getAllStudents()
 function getStudent_byName($name)
 {
 	global $db;
-	$query = "select * from Students where name = :name";
+	$query = "select * from Student where name = :name";
 
 	$statement = $db->prepare($query);
 	$statement->bindValue(':name', $name);
@@ -63,11 +63,43 @@ function getStudent_byName($name)
 	return $results;	
 }
 
+function getStudent_byNationality($nationality)
+{
+	global $db;
+	$query = "select * from Student where nationality = :nationality";
+
+	$statement = $db->prepare($query);
+	$statement->bindValue(':nationality', $name);
+	$statement->execute();
+
+	$results = $statement->fetch();   
+
+	$statement->closeCursor();
+
+	return $results;	
+}
+
+function getStudent_byHobby($hobby)
+{
+	global $db;
+	$query = "select * from Student where hobby = :hobby";
+
+	$statement = $db->prepare($query);
+	$statement->bindValue(':hobby', $name);
+	$statement->execute();
+
+	$results = $statement->fetch();   
+
+	$statement->closeCursor();
+
+	return $results;	
+}
+
 function deleteStudent($name)
 {
 	global $db;
-	
-	$query = "delete from Students where name=:name";
+
+	$query = "delete from Student where name=:name";
 	$statement = $db->prepare($query); 
 	$statement->bindValue(':name', $name);
 	$statement->execute();
