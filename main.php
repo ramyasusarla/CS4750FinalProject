@@ -68,14 +68,14 @@ function getStudent_byNationality($nationality)
 	return $results;	
 }
 
-/*
-function getStudent_byHobby($hobby)
+
+function getStudent_byEmail($email)
 {
 	global $db;
-	$query = "select * from Student where hobby = :hobby";
+	$query = "select * from Student where email = :email";
 
 	$statement = $db->prepare($query);
-	$statement->bindValue(':hobby', $firstName, $lastName);
+	$statement->bindValue(':email', $firstName, $lastName);
 	$statement->execute();
 
 	$results = $statement->fetch();   
@@ -84,7 +84,7 @@ function getStudent_byHobby($hobby)
 
 	return $results;	
 }
-*/
+
 
 function deleteStudent($name)
 {
