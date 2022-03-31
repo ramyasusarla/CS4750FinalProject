@@ -88,7 +88,7 @@ function deleteStudent($name)
 {
 	global $db;
 
-	$query = "delete from Student where name=:name";
+	$query = "delete from Student where firstName=:firstName and lastName = :lastName;
 	$statement = $db->prepare($query); 
 	$statement->bindValue(':firstName', $firstName);
 	$statement->bindValue(':lastName', $lastName);
