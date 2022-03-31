@@ -1,43 +1,17 @@
 <?php
 require('connect-db.php');
-require('friend_db.php');
+require('main.php');
 
-$list_of_friends = getAllFriends();
-$friend_to_update = null;
+$list_of_students = getStudents();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
-    {  
-      // If the button is clicked and its value is "Add" then call addFriend() function
-
-      addFriend($_POST['name'], $_POST['major'], $_POST['year']);
-      $list_of_friends = getAllFriends();
-    }
-    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
-    {  
-      // echo "Update --->" .  $_POST['friend_to_update'] ;
-      // If the button is clicked and its value is "Update" then retrieve info about that friend.
-      // We'll later fill in the friend's info in the form so that a user can update the info.
-       
-      $friend_to_update = getFriend_byName($_POST['friend_to_update']);
-
-      // To fill in the form, assign the pieces of info to the value attributes of form input textboxes.
-      // Then, we'll wait until a user makes some changes to the friend's info 
-      // and click the "Confirm update" button to actually make it reflect the database. 
-      // (also note: "name" is a primary key -- refer to the friends table we created, thus can't be updated)
-    }
-    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
     {
-      deleteFriend($_POST['friend_to_delete']);
-      $list_of_friends = getAllFriends();
+        addStudent$_POST['firstName'], $_POST['lastName'], $_POST['year'], $_POST['major'], $_POST['year'], $_POST['email']);
+        $list_of_students = getStudents();
     }
 
-    if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm update")
-    {
-      updateFriend($_POST['name'], $_POST['major'], $_POST['year']);
-      $list_of_friends = getAllFriends();
-    }
 }
 ?>
 
@@ -59,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   -->
   
   <meta name="author" content="your name">
-  <meta name="description" content="include some description about your page">  
     
   <title>DB interfacing example</title>
   
@@ -88,63 +61,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Friend book</h1>  
+  <h1>Student Information</h1>  
 
   <form name="mainForm" action="simpleform.php" method="post">   
   <div class="row mb-3 mx-3">
-    Name:
-    <input type="text" class="form-control" name="name" required 
-            value="<?php if ($friend_to_update!=null) echo $friend_to_update['name'] ?>"
-    />        
+    First Name:
+    <input type="text" class="form-control" name="firstName" required />        
+  </div>  
+  <div class="row mb-3 mx-3">
+    lastName:
+    <input type="text" class="form-control" name="lastName" required />        
+  </div> 
+  <div class="row mb-3 mx-3">
+    Major:
+    <input type="number" class="form-control" name="major" required />        
   </div>  
   <div class="row mb-3 mx-3">
     Year:
-    <input type="number" class="form-control" name="year" required min="1" max="4" 
-            value="<?php if ($friend_to_update!=null) echo $friend_to_update['year'] ?>"
-    /> 
+    <input type="text" class="form-control" name="year" required />        
   </div>  
   <div class="row mb-3 mx-3">
-    Major:
-    <input type="text" class="form-control" name="major" required 
-            value="<?php if ($friend_to_update!=null) echo $friend_to_update['major'] ?>"
-    />
+    Email:
+    <input type="number" class="form-control" name="email" required />        
   </div>  
   <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
-        title="insert a friend" />  
-  <input type="submit" value="Confirm update" name="btnAction" class="btn btn-dark" 
-        title="confirm update a friend" />  
+        title="insert a student" />
 </form>    
 
 <hr/>
-<h2>List of Friends</h2>
+<h2>List of Students</h2>
 <!-- <div class="row justify-content-center">   -->
 <table class="w3-table w3-bordered w3-card-4" style="width:90%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="25%">Name</th>        
+    <th width="25%">First Name</th>   
+    <th width="25%">Last Name</th>      
     <th width="25%">Major</th>        
     <th width="20%">Year</th> 
+    <th width="20%">Email</th> 
     <th width="12%">Update ?</th>
     <th width="12%">Delete ?</th> 
   </tr>
   </thead>
-  <?php foreach ($list_of_friends as $friend): ?>
+  <?php foreach ($list_of_students as $student):  ?>
   <tr>
-    <td><?php echo $friend['name']; ?></td>
-    <td><?php echo $friend['major']; ?></td>
-    <td><?php echo $friend['year']; ?></td> 
-    <td>
-      <form action="simpleform.php" method="post">
-        <input type="submit" value="Update" name="btnAction" class="btn btn-primary" />
-        <input type="hidden" name="friend_to_update" value="<?php echo $friend['name'] ?>" />      
-      </form>
-    </td>
-    <td>
-    <form action="simpleform.php" method="post">
-        <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
-        <input type="hidden" name="friend_to_delete" value="<?php echo $friend['name'] ?>" />      
-      </form>
-    </td> 
+    <td><?php echo $student['firstName']; ?></td>
+    <td><?php echo $student['lastName']; ?></td>
+    <td><?php echo $student['major']; ?></td>
+    <td><?php echo $student['year']; ?></td>
+    <td>update</td>
+    <td>delete</td>
   </tr>
   <?php endforeach; ?>
 

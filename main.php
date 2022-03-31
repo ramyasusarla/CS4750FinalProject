@@ -4,26 +4,14 @@ function addStudent($name, $major, $nationality, $email, $hobby)
 {
 	global $db; 
 
-	$query = "insert into Student values(:name, :major, :nationality, :email, :hobby)";
+	$query = "insert into Student values(:firstName, lastName, :major, :year, :email)";
 	$statement = $db->prepare($query);
 
-	$first = None;
-	$last = None;
-
-	if(str_contains($name, " ")) {
-		$arr = explode(" ", $name);
-		$first = $arr[0];
-		$last = $arr[1];
-	}
-
-
-
-	$statement->bindValue(':first name', $first);
-	$statement->bindvalue(':last name', $last)
+	$statement->bindValue(':first name', $firstName);
+	$statement->bindvalue(':last name', $lastName)
 	$statement->bindValue(':major', $major);
-	$statement->bindValue(':nationality', $nationality);
+	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
-	$statement->bindValue(':hobby', $hobby);
 
 	$statement->execute();
 
@@ -53,7 +41,8 @@ function getStudent_byName($name)
 	$query = "select * from Student where name = :name";
 
 	$statement = $db->prepare($query);
-	$statement->bindValue(':name', $name);
+	$statement->bindValue(':firstName', $firstName);
+	$statement->bindValue(':lastName', $lastName);
 	$statement->execute();
 
 	$results = $statement->fetch();   
@@ -69,7 +58,7 @@ function getStudent_byNationality($nationality)
 	$query = "select * from Student where nationality = :nationality";
 
 	$statement = $db->prepare($query);
-	$statement->bindValue(':nationality', $name);
+	$statement->bindValue(':nationality', $firstName, $lastName);
 	$statement->execute();
 
 	$results = $statement->fetch();   
@@ -85,7 +74,7 @@ function getStudent_byHobby($hobby)
 	$query = "select * from Student where hobby = :hobby";
 
 	$statement = $db->prepare($query);
-	$statement->bindValue(':hobby', $name);
+	$statement->bindValue(':hobby', $firstName, $lastName);
 	$statement->execute();
 
 	$results = $statement->fetch();   
@@ -101,7 +90,8 @@ function deleteStudent($name)
 
 	$query = "delete from Student where name=:name";
 	$statement = $db->prepare($query); 
-	$statement->bindValue(':name', $name);
+	$statement->bindValue(':firstName', $firstName);
+	$statement->bindValue(':lastName', $lastName);
 	$statement->execute();
 	$statement->closeCursor();
 }
