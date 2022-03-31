@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
     {
-        addStudent$_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['year'], $_POST['major'], $_POST['year'], $_POST['email']);
+        addStudent($_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['year'], $_POST['major'], $_POST['year'], $_POST['email']);
         $list_of_students = getStudents();
     }
 
