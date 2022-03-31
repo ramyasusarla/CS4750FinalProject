@@ -11,7 +11,7 @@ function addStudent($firstName, $lastName, $major, $year, $email)
 
 	$statement->bindValue(':id', $id);
 	$statement->bindValue(':firstName', $firstName);
-	$statement->bindvalue(':lastName', $lastName)
+	$statement->bindvalue(':lastName', $lastName);
 	$statement->bindValue(':major', $major);
 	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
