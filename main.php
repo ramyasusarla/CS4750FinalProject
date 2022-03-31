@@ -90,6 +90,20 @@ function getStudent_byEmail($email)
 	return $results;	
 }
 
+function updateStudent($firstName, $lastName, $phoneNumber, $year, $email)
+{
+	global $db;
+	$query = "update Student set firstName=:firstName, lastName=:lastName, phoneNumber=:phoneNumber, year=:year, email=:email where firstName=:firstName and lastName =:lastName";
+	$statement = $db->prepare($query); 
+	$statement->bindValue(':firstName', $firstName);
+	$statement->bindValue(':lastName', $lastName);
+	$statement->bindValue(':phoneNumber', $phoneNumber);
+	$statement->bindValue(':year', $year);
+	$statement->bindValue(':email', $email);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
 /*
 function deleteStudent_byName($name)
 {
