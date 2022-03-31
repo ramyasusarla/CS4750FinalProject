@@ -92,31 +92,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <div class="row mb-3 mx-3">
     First Name:
     <input type="text" class="form-control" name="firstName" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+            value="<?php if ($student_to_update!=null) echo $student_to_update['firstName'] ?>"
     />            
   </div>  
   <div class="row mb-3 mx-3">
     Last Name:
     <input type="text" class="form-control" name="lastName" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+            value="<?php if ($student_to_update!=null) echo $student_to_update['lastName'] ?>"
     />          
   </div> 
   <div class="row mb-3 mx-3">
     Phone Number:
     <input type="text" class="form-control" name="phoneNumber" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+            value="<?php if ($student_to_update!=null) echo $student_to_update['phoneNumber'] ?>"
     />          
   </div> 
   <div class="row mb-3 mx-3">
     Year:
     <input type="number" class="form-control" name="year" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+            value="<?php if ($student_to_update!=null) echo $student_to_update['year'] ?>"
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Email:
     <input type="text" class="form-control" name="email" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+            value="<?php if ($student_to_update!=null) echo $student_to_update['email'] ?>"
     />          
   </div>  
   <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
