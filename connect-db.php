@@ -40,10 +40,10 @@ $dsn = "mysql:host=$host;dbname=$dbname";
 
  
 /** S22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
-$username = 'your-username';
-$password = 'your-password';
+$username = 'kca4ys';
+$password = 'cs4750final';
 $host = 'mysql01.cs.virginia.edu';
-$dbname = 'your-database';
+$dbname = 'kca4ys_c';
 $dsn = "mysql:host=$host;dbname=$dbname";      
 
 ////////////////////////////////////////////
