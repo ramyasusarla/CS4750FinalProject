@@ -2,13 +2,14 @@
 require('connect-db.php');
 require('main.php');
 
+
 $list_of_students = getAllStudents();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
     {
-        addStudent($_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['major'], $_POST['year'], $_POST['email']);
+        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['major'], $_POST['year'], $_POST['email']);
         $list_of_students = getStudents();
     }
 
@@ -73,10 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <input type="text" class="form-control" name="lastName" required />        
   </div> 
   <div class="row mb-3 mx-3">
-    Major:
-    <input type="text" class="form-control" name="major" required />        
-  </div>  
-  <div class="row mb-3 mx-3">
     Year:
     <input type="number" class="form-control" name="year" required />        
   </div>  
@@ -94,20 +91,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <table class="w3-table w3-bordered w3-card-4" style="width:90%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="25%">First Name</th>   
-    <th width="25%">Last Name</th>      
-    <th width="25%">Major</th>        
-    <th width="20%">Year</th> 
-    <th width="20%">Email</th> 
-    <th width="12%">Update ?</th>
-    <th width="12%">Delete ?</th> 
+    <th width="12.5%">First Name</th>   
+    <th width="12.5%">Last Name</th>           
+    <th width="12.5%">Year</th> 
+    <th width="12.5%">Email</th> 
+    <th width="12.5%">Update ?</th>
+    <th width="12.5%">Delete ?</th> 
   </tr>
   </thead>
   <?php foreach ($list_of_students as $student):  ?>
   <tr>
     <td><?php echo $student['firstName']; ?></td>
     <td><?php echo $student['lastName']; ?></td>
-    <td><?php echo $student['major']; ?></td>
     <td><?php echo $student['year']; ?></td>
     <td><?php echo $student['email']; ?></td>
     <td>update</td>

@@ -1,18 +1,18 @@
 <?php
 
-$id = 1;
+// global $id;
+// $id = 20;
 
 function addStudent($firstName, $lastName, $major, $year, $email)
 {
 	global $db; 
 
-	$query = "insert into Student values(:firstName, lastName, :major, :year, :email)";
+	$query = "insert into Student (firstName, lastName, phoneNumber, year, email) values(:firstName, :lastName, :year, :email)";
 	$statement = $db->prepare($query);
 
-	$statement->bindValue(':id', $id);
+	//$statement->bindValue(':id', $id);
 	$statement->bindValue(':firstName', $firstName);
 	$statement->bindvalue(':lastName', $lastName);
-	$statement->bindValue(':major', $major);
 	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
 
@@ -21,7 +21,7 @@ function addStudent($firstName, $lastName, $major, $year, $email)
 	// release; free the connection to the server so other sql statements may be issued 
 	$statement->closeCursor();
 
-	$id++;
+	//$id++;
 } 
 
 function getAllStudents()
@@ -90,7 +90,7 @@ function getStudent_byEmail($email)
 }
 
 
-function deleteStudent($name)
+function deleteStudent_byName($name)
 {
 	global $db;
 
