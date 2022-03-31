@@ -1,5 +1,7 @@
 <?php
 
+$id = 1;
+
 function addStudent($firstName, $lastName, $major, $year, $email)
 {
 	global $db; 
@@ -7,8 +9,9 @@ function addStudent($firstName, $lastName, $major, $year, $email)
 	$query = "insert into Student values(:firstName, lastName, :major, :year, :email)";
 	$statement = $db->prepare($query);
 
-	$statement->bindValue(':first name', $firstName);
-	$statement->bindvalue(':last name', $lastName)
+	$statement->bindValue(':id', $id);
+	$statement->bindValue(':firstName', $firstName);
+	$statement->bindvalue(':lastName', $lastName)
 	$statement->bindValue(':major', $major);
 	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
@@ -18,6 +21,7 @@ function addStudent($firstName, $lastName, $major, $year, $email)
 	// release; free the connection to the server so other sql statements may be issued 
 	$statement->closeCursor();
 
+	$id++;
 } 
 
 function getAllStudents()
