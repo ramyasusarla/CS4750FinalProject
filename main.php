@@ -38,7 +38,7 @@ function getAllStudents()
 function getStudent_byName($firstName, $lastName)
 {
 	global $db;
-	$query = "select * from Student where name = :name";
+	$query = "select * from Student where firstName = :firstName and lastName = :lastName";
 
 	$statement = $db->prepare($query);
 	$statement->bindValue(':firstName', $firstName);
