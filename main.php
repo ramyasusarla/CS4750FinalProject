@@ -3,16 +3,17 @@
 // global $id;
 // $id = 20;
 
-function addStudent($firstName, $lastName, $major, $year, $email)
+function addStudent($firstName, $lastName, $phoneNumber, $year, $email)
 {
 	global $db; 
 
-	$query = "insert into Student (firstName, lastName, phoneNumber, year, email) values(:firstName, :lastName, :year, :email)";
+	$query = "insert into Student (firstName, lastName, phoneNumber, year, email) values(:firstName, :lastName, :phoneNumber, :year, :email)";
 	$statement = $db->prepare($query);
 
 	//$statement->bindValue(':id', $id);
 	$statement->bindValue(':firstName', $firstName);
 	$statement->bindvalue(':lastName', $lastName);
+	$statement->bindvalue(':phoneNumber', $phoneNumber);
 	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
 
@@ -56,13 +57,13 @@ function getStudent_byName($firstName, $lastName)
 	return $results;	
 }
 
-function getStudent_byNationality($nationality)
+function getStudent_byID($id)
 {
 	global $db;
-	$query = "select * from Student where nationality = :nationality";
+	$query = "select * from Student where id = :id";
 
 	$statement = $db->prepare($query);
-	$statement->bindValue(':nationality', $firstName, $lastName);
+	$statement->bindValue(':id', $id);
 	$statement->execute();
 
 	$results = $statement->fetch();   
@@ -89,7 +90,7 @@ function getStudent_byEmail($email)
 	return $results;	
 }
 
-
+/*
 function deleteStudent_byName($name)
 {
 	global $db;
@@ -101,5 +102,19 @@ function deleteStudent_byName($name)
 	$statement->execute();
 	$statement->closeCursor();
 }
+*/
+
+function deleteStudent_byID($id)
+{
+	global $db;
+
+	$query = "delete from Student where id=:id";
+	$statement = $db->prepare($query); 
+	$statement->bindValue(':id', $id);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
+
 
 ?>

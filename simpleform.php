@@ -4,15 +4,39 @@ require('main.php');
 
 
 $list_of_students = getAllStudents();
+$student_to_update = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
     {
-        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['major'], $_POST['year'], $_POST['email']);
-        $list_of_students = getStudents();
+        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
+        $list_of_students = getAllStudents();
+    }
+    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
+    {  
+      // echo "Update --->" .  $_POST['friend_to_update'] ;
+      // If the button is clicked and its value is "Update" then retrieve info about that friend.
+      // We'll later fill in the friend's info in the form so that a user can update the info.
+       
+      $student_to_update = getStudent_byID($_POST['student_to_update']);
+
+      // To fill in the form, assign the pieces of info to the value attributes of form input textboxes.
+      // Then, we'll wait until a user makes some changes to the friend's info 
+      // and click the "Confirm update" button to actually make it reflect the database. 
+      // (also note: "name" is a primary key -- refer to the friends table we created, thus can't be updated)
+    }
+    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
+    {
+      deleteStudent_byID($_POST['student_to_delete']);
+      $list_of_students = getAllStudents();
     }
 
+    if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm update")
+    {
+      updateStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
+      $list_of_students = getAllStudents();
+    }
 }
 ?>
 
@@ -74,6 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <input type="text" class="form-control" name="lastName" required />        
   </div> 
   <div class="row mb-3 mx-3">
+    Phone Number:
+    <input type="text" class="form-control" name="phoneNumber" required />        
+  </div> 
+  <div class="row mb-3 mx-3">
     Year:
     <input type="number" class="form-control" name="year" required />        
   </div>  
@@ -92,7 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <thead>
   <tr style="background-color:#B0B0B0">
     <th width="12.5%">First Name</th>   
-    <th width="12.5%">Last Name</th>           
+    <th width="12.5%">Last Name</th>     
+    <th width="12.5%">Phone Number</th>        
     <th width="12.5%">Year</th> 
     <th width="12.5%">Email</th> 
     <th width="12.5%">Update ?</th>
@@ -103,13 +132,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <tr>
     <td><?php echo $student['firstName']; ?></td>
     <td><?php echo $student['lastName']; ?></td>
+    <td><?php echo $student['phoneNumber']; ?></td>
     <td><?php echo $student['year']; ?></td>
     <td><?php echo $student['email']; ?></td>
-    <td>update</td>
-    <td>delete</td>
+    <td>
+      <form action="simpleform.php" method="post">
+        <input type="submit" value="Update" name="btnAction" class="btn btn-primary" />
+        <input type="hidden" name="student_to_update" value="<?php echo $student['id'] ?>" />      
+      </form>
+    </td>
+    <td>
+    <form action="simpleform.php" method="post">
+        <input type="submit" value="Delete" name="btnAction" class="btn btn-danger" />
+        <input type="hidden" name="student_to_delete" value="<?php echo $student['id'] ?>" />      
+      </form>
+    </td> 
   </tr>
   <?php endforeach; ?>
-
   
   </table>
 <!-- </div>   -->
