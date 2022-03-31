@@ -29,20 +29,22 @@
 ////////////////////////////////////////////
 
 /** S22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
+/*
 $username = 'your-username';
 $password = 'your-password';
 $host = 'localhost:3306';
 $dbname = 'your-database';
 $dsn = "mysql:host=$host;dbname=$dbname";  
+*/
 ////////////////////////////////////////////
 
  
 /** S22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
 $username = 'your-username';
 $password = 'your-password';
-$host = 'localhost:3306';
+$host = 'mysql01.cs.virginia.edu';
 $dbname = 'your-database';
-$dsn = "mysql:host=$host;dbname=$dbname";     
+$dsn = "mysql:host=$host;dbname=$dbname";      
 
 ////////////////////////////////////////////
 

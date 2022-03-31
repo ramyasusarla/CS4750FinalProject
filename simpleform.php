@@ -2,13 +2,13 @@
 require('connect-db.php');
 require('main.php');
 
-$list_of_students = getStudents();
+$list_of_students = getAllStudents();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
     {
-        addStudent($_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['year'], $_POST['major'], $_POST['year'], $_POST['email']);
+        addStudent($_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['major'], $_POST['year'], $_POST['email']);
         $list_of_students = getStudents();
     }
 
@@ -69,20 +69,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <input type="text" class="form-control" name="firstName" required />        
   </div>  
   <div class="row mb-3 mx-3">
-    lastName:
+    Last Name:
     <input type="text" class="form-control" name="lastName" required />        
   </div> 
   <div class="row mb-3 mx-3">
     Major:
-    <input type="number" class="form-control" name="major" required />        
+    <input type="text" class="form-control" name="major" required />        
   </div>  
   <div class="row mb-3 mx-3">
     Year:
-    <input type="text" class="form-control" name="year" required />        
+    <input type="number" class="form-control" name="year" required />        
   </div>  
   <div class="row mb-3 mx-3">
     Email:
-    <input type="number" class="form-control" name="email" required />        
+    <input type="text" class="form-control" name="email" required />        
   </div>  
   <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
         title="insert a student" />
@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <td><?php echo $student['lastName']; ?></td>
     <td><?php echo $student['major']; ?></td>
     <td><?php echo $student['year']; ?></td>
+    <td><?php echo $student['email']; ?></td>
     <td>update</td>
     <td>delete</td>
   </tr>
