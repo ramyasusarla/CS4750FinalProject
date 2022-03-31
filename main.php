@@ -1,6 +1,6 @@
 <?php
 
-function addStudent($name, $major, $nationality, $email, $hobby)
+function addStudent($firstName, $lastName, $major, $year, $email)
 {
 	global $db; 
 
@@ -35,7 +35,7 @@ function getAllStudents()
 	return $results;
 }
 
-function getStudent_byName($name)
+function getStudent_byName($firstName, $lastName)
 {
 	global $db;
 	$query = "select * from Student where name = :name";
