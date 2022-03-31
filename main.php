@@ -68,6 +68,7 @@ function getStudent_byNationality($nationality)
 	return $results;	
 }
 
+/*
 function getStudent_byHobby($hobby)
 {
 	global $db;
@@ -83,6 +84,7 @@ function getStudent_byHobby($hobby)
 
 	return $results;	
 }
+*/
 
 function deleteStudent($name)
 {
