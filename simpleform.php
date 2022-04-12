@@ -5,13 +5,15 @@ require('main.php');
 
 $list_of_students = getAllStudents();
 $student_to_update = null;
+$major_to_update = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
     {
         addStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
-        $list_of_students = getAllStudents();
+
+        addMajor($_POST['major']);
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {  
@@ -21,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
        
       $student_to_update = getStudent_byID($_POST['student_to_update']);
 
+      $major_to_update = getMajor_byID($_POST['major_to_update']);
       // To fill in the form, assign the pieces of info to the value attributes of form input textboxes.
       // Then, we'll wait until a user makes some changes to the friend's info 
       // and click the "Confirm update" button to actually make it reflect the database. 
@@ -30,11 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
       deleteStudent_byID($_POST['student_to_delete']);
       $list_of_students = getAllStudents();
+
+      deleteMajor_byID($_POST['major_to_delte']):
+      $list_of_students = getAllStudents();
     }
 
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm update")
     {
-      updateStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
+      updateStudent(student_to_delete[id], $_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
       $list_of_students = getAllStudents();
     }
 }
@@ -86,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Student Information</h1>  
+  <h1>Basic Student Information</h1>  
 
   <form name="mainForm" action="simpleform.php" method="post">   
   <div class="row mb-3 mx-3">
@@ -117,6 +123,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     Email:
     <input type="text" class="form-control" name="email" required 
             value="<?php if ($student_to_update!=null) echo $student_to_update['email'] ?>"
+    />          
+  </div>  
+  <div class="row mb-3 mx-3">
+    Major:
+    <input type="text" class="form-control" name="major" required 
+            value="<?php if ($student_to_update!=null) echo $student_to_update['major'] ?>"
     />          
   </div>  
   <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
@@ -160,6 +172,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       </form>
     </td> 
   </tr>
+
+  <!-- Table for Major -->
+<div class="container">
+  <h1>Major Information</h1>  
+
+  <form name="mainForm" action="simpleform.php" method="post">    
+  <div class="row mb-3 mx-3">
+    Major:
+    <input type="text" class="form-control" name="major" required 
+            value="<?php if ($major_to_update!=null) echo $major_to_update['major'] ?>"
+    />          
+  </div>  
+  <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
+        title="insert a student" />  
+
   <?php endforeach; ?>
   
   </table>
