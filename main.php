@@ -3,26 +3,47 @@
 // global $id;
 // $id = 20;
 
-function addStudent($firstName, $lastName, $phoneNumber, $year, $email)
+function getMostRecentID($firstName, $lastName, $phoneNumber, $year, $email)
+{
+	global $db;
+	$query = "select * from Student where firstName=:firstName and lastName=:lastName and phoneNumber = :phoneNumber and year=:year and email=:email";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$result = $statement->fetch();   
+	$statement->closeCursor();
+
+	return $result;	
+}
+
+function addStudent($firstName, $lastName, $phoneNumber, $year, $email, $major, $nationality, $trait1, $trait2, $hobby1, $hobby2, $hobby3, $currentJobTitle, $currentEmployer, $pastJobTitle, $pastEmployer, $siblingName, $parent1, $parent2, $classSubject, $classNumber, $classTitle)
 {
 	global $db; 
 
 	$query = "insert into Student (firstName, lastName, phoneNumber, year, email) values(:firstName, :lastName, :phoneNumber, :year, :email)";
 	$statement = $db->prepare($query);
-
-	//$statement->bindValue(':id', $id);
 	$statement->bindValue(':firstName', $firstName);
-	$statement->bindvalue(':lastName', $lastName);
-	$statement->bindvalue(':phoneNumber', $phoneNumber);
+	$statement->bindValue(':lastName', $lastName);
+	$statement->bindValue(':phoneNumber', $phoneNumber);
 	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
-
 	$statement->execute();
 
-	// release; free the connection to the server so other sql statements may be issued 
-	$statement->closeCursor();
+	$query = "select max(id) from Student";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$result = $statement->fetch();   
+	$statement->closeCursor();	
+	$resultID = $result[0];
 
-	//$id++;
+	addMajor($resultID, $major);	
+	addNationality($resultID, $nationality);
+	addTraits($resultID, $trait1, $trait2);
+	addHobbies($resultID, $hobby1, $hobby2, $hobby3);
+	addCurrentJob($resultID, $currentJobTitle, $currentEmployer);
+	addPastJob($resultID, $pastJobTitle, $pastEmployer);
+	addSiblingName($resultID, $siblingName);
+	addParentNames($resultID, $parent1, $parent2);
+	addClass($resultID, $classSubject, $classNumber, $classTitle);
 } 
 
 function addMajor($id, $major)
@@ -32,7 +53,7 @@ function addMajor($id, $major)
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':major', $major);
+	$statement->bindValue(':major', $major);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
 	$statement->closeCursor();
@@ -45,7 +66,7 @@ function addNationality($id, $nationality)
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':nationality', $nationality);
+	$statement->bindValue(':nationality', $nationality);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
 	$statement->closeCursor();
@@ -58,7 +79,7 @@ function addTraits($id, $trait1, $trait2)
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':trait1', $trait1);
+	$statement->bindValue(':trait1', $trait1);
 	$statement->bindValue(':trait2', $trait2);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
@@ -68,11 +89,11 @@ function addTraits($id, $trait1, $trait2)
 function addHobbies($id, $hobby1, $hobby2, $hobby3)
 {
 	global $db; 
-	$query = "insert into Traits (id, hobby1, hobby2, hobby3) values(:id, :hobby1, :hobby2, :hobby3)";
+	$query = "insert into Hobbies (id, hobby1, hobby2, hobby3) values(:id, :hobby1, :hobby2, :hobby3)";
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':hobby1', $hobby1);
+	$statement->bindValue(':hobby1', $hobby1);
 	$statement->bindValue(':hobby2', $hobby2);
 	$statement->bindValue(':hobby3', $hobby3);
 	$statement->execute();
@@ -87,7 +108,7 @@ function addCurrentJob($id, $currentJobTitle, $currentEmployer)
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':currentJobTitle', $currentJobTitle);
+	$statement->bindValue(':currentJobTitle', $currentJobTitle);
 	$statement->bindValue(':currentEmployer', $currentEmployer);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
@@ -97,11 +118,11 @@ function addCurrentJob($id, $currentJobTitle, $currentEmployer)
 function addPastJob($id, $pastJobTitle, $pastEmployer)
 {
 	global $db; 
-	$query = "insert into addPastJob (id, pastJobTitle, pastEmployer) values(:id, :pastJobTitle, :pastEmployer)";
+	$query = "insert into PastJob (id, pastJobTitle, pastEmployer) values(:id, :pastJobTitle, :pastEmployer)";
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':pastJobTitle', $pastJobTitle);
+	$statement->bindValue(':pastJobTitle', $pastJobTitle);
 	$statement->bindValue(':pastEmployer', $pastEmployer);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
@@ -115,20 +136,20 @@ function addSiblingName($id, $siblingName)
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':siblingName', $siblingName);
+	$statement->bindValue(':siblingName', $siblingName);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
 	$statement->closeCursor();
 } 
 
-function addParentName($id, $parent1, $parent2)
+function addParentNames($id, $parent1, $parent2)
 {
 	global $db; 
-	$query = "insert into addParentName (id, parent1, parent2) values(:id, :parent1, :parent2)";
+	$query = "insert into ParentName (id, parent1, parent2) values(:id, :parent1, :parent2)";
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':parent1', $parent1);
+	$statement->bindValue(':parent1', $parent1);
 	$statement->bindValue(':parent2', $parent2);
 	$statement->execute();
 	// release; free the connection to the server so other sql statements may be issued 
@@ -142,7 +163,7 @@ function addClass($id, $classSubject, $classNumber, $classTitle)
 	$statement = $db->prepare($query);
 
 	$statement->bindValue(':id', $id);
-	$statement->bindvalue(':classSubject', $classSubject);
+	$statement->bindValue(':classSubject', $classSubject);
 	$statement->bindValue(':classNumber', $classNumber);
 	$statement->bindValue(':classTitle', $classTitle);
 	$statement->execute();
@@ -155,14 +176,10 @@ function getAllStudents()
 {
 	global $db;
 	$query = "select * from Student";
-
 	$statement = $db->prepare($query);
 	$statement->execute();
-
 	$results = $statement->fetchAll();   
-
 	$statement->closeCursor();
-
 	return $results;
 }
 
@@ -176,6 +193,95 @@ function getAllMajors()
 	$statement->closeCursor();
 	return $results;
 }
+
+function getAllNationalities()
+{
+	global $db;
+	$query = "select * from Nationality";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllTraits()
+{
+	global $db;
+	$query = "select * from Traits";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllClasses()
+{
+	global $db;
+	$query = "select * from Class";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllHobbies()
+{
+	global $db;
+	$query = "select * from Hobbies";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllCurrentJobs()
+{
+	global $db;
+	$query = "select * from CurrentJob";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllPastJobs()
+{
+	global $db;
+	$query = "select * from PastJob";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllSiblingNames()
+{
+	global $db;
+	$query = "select * from SiblingName";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
+function getAllparentNames()
+{
+	global $db;
+	$query = "select * from ParentNames";
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;
+}
+
 
 function getStudent_byName($firstName, $lastName)
 {
@@ -250,12 +356,12 @@ function getStudent_byMajor($major)
 	return $results;	
 }
 
-
-function updateStudent($firstName, $lastName, $phoneNumber, $year, $email)
+function updateStudent($id, $firstName, $lastName, $phoneNumber, $year, $email)
 {
 	global $db;
-	$query = "update Student set firstName=:firstName, lastName=:lastName, phoneNumber=:phoneNumber, year=:year, email=:email where firstName=:firstName and lastName =:lastName";
-	$statement = $db->prepare($query); 
+	$query = "update Student set firstName=:firstName, lastName=:lastName, phoneNumber=:phoneNumber, year=:year, email=:email where id=:id";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':id', $id); 
 	$statement->bindValue(':firstName', $firstName);
 	$statement->bindValue(':lastName', $lastName);
 	$statement->bindValue(':phoneNumber', $phoneNumber);
@@ -264,6 +370,21 @@ function updateStudent($firstName, $lastName, $phoneNumber, $year, $email)
 	$statement->execute();
 	$statement->closeCursor();
 }
+
+// function updateStudent($id, $firstName, $lastName, $phoneNumber, $year, $email, $major, $nationality, $trait1, $trait2, $hobby1, $hobby2, $hobby3, $currentJobTitle, $currentEmployer, $pastJobTitle, $pastEmployer, $siblingName, $parent1, $parent2, $classSubject, $classNumber, $classTitle)
+// {
+// 	global $db;
+// 	updateMajor($id, $major);
+// 	$query = "update Student set firstName=:firstName, lastName=:lastName, phoneNumber=:phoneNumber, year=:year, email=:email where id=:id";
+// 	$statement = $db->prepare($query); 
+// 	$statement->bindValue(':firstName', $firstName);
+// 	$statement->bindValue(':lastName', $lastName);
+// 	$statement->bindValue(':phoneNumber', $phoneNumber);
+// 	$statement->bindValue(':year', $year);
+// 	$statement->bindValue(':email', $email);
+// 	$statement->execute();
+// 	$statement->closeCursor();
+// }
 
 function updateMajor($id, $major)
 {
@@ -321,11 +442,20 @@ function deleteStudent_byID($id)
 	$statement->bindValue(':id', $id);
 	$statement->execute();
 	$statement->closeCursor();
+	deleteMajor_byID($id);
+	deleteNationality_byID($id);
+	deleteTraits_byID($id);
+	deleteHobbies_byID($id);
+	deleteCurrentJob_byID($id);
+	deletePastJob_byID($id);
+	deleteSiblingName_byID($id);
+	deleteParentName_byID($id);
+	deleteClass_byID($id);
 }
 
 function deleteMajor_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from Major where id=:id";
 	$statement = $db->prepare($query); 
@@ -336,7 +466,7 @@ function deleteMajor_byID($id)
 
 function deleteNationality_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from Nationality where id=:id";
 	$statement = $db->prepare($query); 
@@ -347,7 +477,7 @@ function deleteNationality_byID($id)
 
 function deleteTraits_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from Traits where id=:id";
 	$statement = $db->prepare($query); 
@@ -358,7 +488,7 @@ function deleteTraits_byID($id)
 
 function deleteHobbies_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from Hobbies where id=:id";
 	$statement = $db->prepare($query); 
@@ -369,7 +499,7 @@ function deleteHobbies_byID($id)
 
 function deleteCurrentJob_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from CurrentJob where id=:id";
 	$statement = $db->prepare($query); 
@@ -380,7 +510,7 @@ function deleteCurrentJob_byID($id)
 
 function deletePastJob_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from PastJob where id=:id";
 	$statement = $db->prepare($query); 
@@ -391,7 +521,7 @@ function deletePastJob_byID($id)
 
 function deleteSiblingName_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from SiblingName where id=:id";
 	$statement = $db->prepare($query); 
@@ -402,7 +532,7 @@ function deleteSiblingName_byID($id)
 
 function deleteParentName_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from ParentNames where id=:id";
 	$statement = $db->prepare($query); 
@@ -413,7 +543,7 @@ function deleteParentName_byID($id)
 
 function deleteClass_byID($id)
 {
-	global $id;
+	global $db;
 
 	$query = "delete from Class where id=:id";
 	$statement = $db->prepare($query); 

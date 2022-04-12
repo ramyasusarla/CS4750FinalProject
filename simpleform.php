@@ -2,8 +2,17 @@
 require('connect-db.php');
 require('main.php');
 
-$most_recent_ID = 0;
 $list_of_students = getAllStudents();
+$list_of_majors = getAllMajors();
+$list_of_nationalities = getAllNationalities();
+$list_of_traits = getAllTraits();
+$list_of_classes = getAllClasses();
+$list_of_hobbies = getAllHobbies();
+$list_of_currentJobs = getAllCurrentJobs();
+$list_of_pastJob = getAllPastJobs();
+$list_of_siblingNames = getAllSiblingNames();
+$list_of_parentNames = getAllparentNames();
+
 $student_to_update = null;
 $major_to_update = null;
 $hobby_to_update = null;
@@ -13,32 +22,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
     {
-        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
-        $most_recent_ID += 1;
 
-        addMajor($most_recent_ID, $_POST['major']);
-        addNationality($most_recent_ID, $_POST['nationality']);
-        addTraits($most_recent_ID, $_POST['trait1'], $_POST['trait2']);
-        addHobbies($most_recent_ID, $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3']);
-        addCurrentJob($most_recent_ID, $_POST['currentJobTitle'], $_POST['currentEmployer']);
-        addPastJob($most_recent_ID, $_POST['pastJobTitle'], $_POST['pastJobTitle']);
-        addSiblingName($most_recent_ID, $_POST['siblingName']);
-        addParentNames($most_recent_ID, $_POST['parent1'], $_POST['parent2']);
-        addClass($most_recent_ID, $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle']);
+        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email'], $_POST['major'], $_POST['nationality'], $_POST['trait1'], $_POST['trait2'], $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3'], $_POST['currentJobTitle'], $_POST['currentEmployer'], $_POST['pastJobTitle'], $_POST['pastEmployer'], $_POST['siblingName'], $_POST['parent1'], $_POST['parent2'], $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle']);
+
+        // $most_recent_ID = getMostRecentID($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
+        // addMajor($most_recent_ID, $_POST['major']);
+        // addNationality($most_recent_ID, $_POST['nationality']);
+        // addTraits($most_recent_ID, $_POST['trait1'], $_POST['trait2']);
+        // addHobbies($most_recent_ID, $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3']);
+        // addCurrentJob($most_recent_ID, $_POST['currentJobTitle'], $_POST['currentEmployer']);
+        // addPastJob($most_recent_ID, $_POST['pastJobTitle'], $_POST['pastJobTitle']);
+        // addSiblingName($most_recent_ID, $_POST['siblingName']);
+        // addParentNames($most_recent_ID, $_POST['parent1'], $_POST['parent2']);
+        // addClass($most_recent_ID, $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle'])
+        
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {  
-      // echo "Update --->" .  $_POST['friend_to_update'] ;
-      // If the button is clicked and its value is "Update" then retrieve info about that friend.
-      // We'll later fill in the friend's info in the form so that a user can update the info.
-       
       $student_to_update = getStudent_byID($_POST['student_to_update']);
 
-      $major_to_update = getMajor_byID($_POST['major_to_update']);
+      //$major_to_update = getMajor_byID($_POST['major_to_update']);
 
-      $hobby_to_update = getMajor_byID($_POST['hobby_to_update']);
+      // $hobby_to_update = getMajor_byID($_POST['hobby_to_update']);
 
-      $currentJob_to_update = getMajor_byID($_POST['currentJob_to_update']);
+      // $currentJob_to_update = getMajor_byID($_POST['currentJob_to_update']);
 
 
       // To fill in the form, assign the pieces of info to the value attributes of form input textboxes.
@@ -49,27 +56,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
     {
       deleteStudent_byID($_POST['student_to_delete']);
-      deleteMajor_byID($_POST['major_to_delete']);
-      deleteNationality_byID($_POST['nationality_to_delete']);
-      deleteTraits_byID($_POST['traits_to_delete']);
-      deleteHobbies_byID($_POST['hobbies_to_delete']);
-      deleteCurrentJob_byID($_POST['currentJob_to_delete']);
-      deletePastJob_byID($_POST['pastJob_to_delete']);
-      deleteSiblingName_byID($_POST['siblingName_to_delete']);
-      deleteParentName_byID($_POST['parentName_to_delete']);
-      deleteClass_byID($_POST['class_to_delete']);
-
       $list_of_students = getAllStudents();
+
     }
 
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm update")
     {
-      updateStudent(_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
-      updateMajor(student_to_update[id], $_POST['major']);
-      updateHobby(student_to_update[id], $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3']);
-      updateCurrentJob(student_to_update[id], $_POST['currentJobTitle'], $_POST['currentEmployer']);
+      updateStudent($_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
+      // updateStudent($student_to_update['id'], $_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email'], $_POST['major'], $_POST['nationality'], $_POST['trait1'], $_POST['trait2'], $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3'], $_POST['currentJobTitle'], $_POST['currentEmployer'], $_POST['pastJobTitle'], $_POST['pastEmployer'], $_POST['siblingName'], $_POST['parent1'], $_POST['parent2'], $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle']);
+      // updateMajor(student_to_update[id], $_POST['major']);
+      // updateHobby(student_to_update[id], $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3']);
+      // updateCurrentJob(student_to_update[id], $_POST['currentJobTitle'], $_POST['currentEmployer']);
 
       $list_of_students = getAllStudents();
+      // $list_of_majors = getAllMajors();
+      // $list_of_nationalities = getAllNationalities();
+      // $list_of_traits = getAllTraits();
+      // $list_of_classes = getAllClasses();
+      // $list_of_hobbies = getAllHobbies();
+      // $list_of_currentJobs = getAllCurrentJobs();
+      // $list_of_pastJob = getAllPastJobs();
+      // $list_of_siblingNames = getAllSiblingNames();
+      // $list_of_parentNames = getAllparentNames();
     }
 }
 ?>
@@ -122,7 +130,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <div class="container">
   <h1>Basic Student Information</h1>  
 
-  <form name="mainForm" action="simpleform.php" method="post">   
+  <form name="mainForm" action="simpleform.php" method="post">  
+  <div class="row mb-3 mx-3">
+    ID:
+    <input type="text" class="form-control" name="id" required 
+            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+    />        
+  </div>   
   <div class="row mb-3 mx-3">
     First Name:
     <input type="text" class="form-control" name="firstName" required 
@@ -155,13 +169,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>  
   <div class="row mb-3 mx-3">
     Major:
-    <input type="text" class="form-control" name="major" required 
-            value="<?php if ($major_to_update!=null) echo $major_to_update['major'] ?>"
+    <input type="text" class="form-control" name="major" 
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Nationality:
-    <input type="text" class="form-control" name="nationality"
+    <input type="text" class="form-control" name="nationality" 
     />          
   </div>  
   <div class="row mb-3 mx-3">
@@ -176,61 +189,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>  
   <div class="row mb-3 mx-3">
     Hobby 1:
-    <input type="text" class="form-control" name="hobby1" required 
-            value="<?php if ($hobby_to_update!=null) echo $hobby_to_update['hobby1'] ?>"
+    <input type="text" class="form-control" name="hobby1" 
     />          
   </div>  
   <div class="row mb-3 mx-3">
   Hobby 2:
-    <input type="text" class="form-control" name="hobby2" required 
-            value="<?php if ($hobby_to_update!=null) echo $hobby_to_update['hobby2'] ?>"
+    <input type="text" class="form-control" name="hobby2" 
     />          
   </div>
   <div class="row mb-3 mx-3">  
   Hobby 3:
-    <input type="text" class="form-control" name="hobby3" required 
-            value="<?php if ($hobby_to_update!=null) echo $hobby_to_update['hobby3'] ?>"
+    <input type="text" class="form-control" name="hobby3" 
     />          
   </div>  
   <div class="row mb-3 mx-3">
   Current Job Title:
-    <input type="text" class="form-control" name="currentJobTitle" required 
-            value="<?php if ($currentJob_to_update!=null) echo $currentJob_to_update['currentJobTitle'] ?>"
+    <input type="text" class="form-control" name="currentJobTitle" 
     />          
   </div> 
   <div class="row mb-3 mx-3"> 
   Current Employer:
-    <input type="text" class="form-control" name="currentEmployer" required 
-            value="<?php if ($currentJob_to_update!=null) echo $currentJob_to_update['currentEmployer'] ?>"
+    <input type="text" class="form-control" name="currentEmployer" 
     />          
   </div> 
   <div class="row mb-3 mx-3">
     Past Job Title:
-    <input type="text" class="form-control" name="pastJobTitle" 
+    <input type="text" class="form-control" name="pastJobTitle"
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Past Employer:
-    <input type="text" class="form-control" name="pastEmployer" 
+    <input type="text" class="form-control" name="pastEmployer"
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Sibling Name:
-    <input type="text" class="form-control" name="siblingName" 
+    <input type="text" class="form-control" name="siblingName"
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Parent Name 1:
-    <input type="text" class="form-control" name="parent1" 
+    <input type="text" class="form-control" name="parent1"
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Parent Name 2:
-    <input type="text" class="form-control" name="parent2" 
+    <input type="text" class="form-control" name="parent2"
     />          
   </div>  
   <div class="row mb-3 mx-3"> 
-  Class Subject:
+  Class Subject (mnuemonic):
     <input type="text" class="form-control" name="classSubject"
     />          
   </div> 
@@ -251,22 +259,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </form>    
 
 <hr/>
-<h2>List of Students</h2>
+<h2>List of Student Information</h2>
 <!-- <div class="row justify-content-center">   -->
 <table class="w3-table w3-bordered w3-card-4" style="width:90%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="12.5%">First Name</th>   
-    <th width="12.5%">Last Name</th>     
-    <th width="12.5%">Phone Number</th>        
-    <th width="12.5%">Year</th> 
-    <th width="12.5%">Email</th> 
-    <th width="12.5%">Update ?</th>
-    <th width="12.5%">Delete ?</th> 
+    <th width="11%">ID</th>   
+    <th width="11%">First Name</th>   
+    <th width="11%">Last Name</th>     
+    <th width="11%">Phone Number</th>        
+    <th width="11%">Year</th> 
+    <th width="11%">Email</th> 
+    <th width="11%">Update</th>
+    <th width="11%">Delete</th> 
   </tr>
   </thead>
   <?php foreach ($list_of_students as $student):  ?>
   <tr>
+    <td><?php echo $student['id']; ?></td>
     <td><?php echo $student['firstName']; ?></td>
     <td><?php echo $student['lastName']; ?></td>
     <td><?php echo $student['phoneNumber']; ?></td>
@@ -285,10 +295,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       </form>
     </td> 
   </tr>
-
   <?php endforeach; ?>
+</table>
+
+<!-- <h2>List of Majors</h2>
+<table class="w3-table w3-bordered w3-card-4" style="width:90%">
+  <thead>
+  <tr style="background-color:#B0B0B0">
+    <th width="12.5%">ID</th>   
+    <th width="12.5%">Major</th>     
+    <th width="12.5%">Update</th>
+    <th width="12.5%">Delete</th> 
+  </tr>
+  </thead>
+  <?php foreach ($list_of_majors as $major):  ?>
+  <tr>
+    <td><?php echo $major['id']; ?></td>
+    <td><?php echo $major['major']; ?></td>
+  </tr>
+  <?php endforeach; ?>
+</table> -->
   
-  </table>
+
 <!-- </div>   -->
 
 
