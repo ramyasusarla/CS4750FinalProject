@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         addPastJob($most_recent_ID, $_POST['pastJobTitle'], $_POST['pastJobTitle']);
         addSiblingName($most_recent_ID, $_POST['siblingName']);
         addParentNames($most_recent_ID, $_POST['parent1'], $_POST['parent2']);
+        addClass($most_recent_ID, $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle']);
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {  
@@ -56,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       deletePastJob_byID($_POST['pastJob_to_delete']);
       deleteSiblingName_byID($_POST['siblingName_to_delete']);
       deleteParentName_byID($_POST['parentName_to_delete']);
+      deleteClass_byID($_POST['class_to_delete']);
 
       $list_of_students = getAllStudents();
     }
@@ -178,21 +180,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             value="<?php if ($hobby_to_update!=null) echo $hobby_to_update['hobby1'] ?>"
     />          
   </div>  
+  <div class="row mb-3 mx-3">
   Hobby 2:
     <input type="text" class="form-control" name="hobby2" required 
             value="<?php if ($hobby_to_update!=null) echo $hobby_to_update['hobby2'] ?>"
     />          
-  </div>  
+  </div>
+  <div class="row mb-3 mx-3">  
   Hobby 3:
     <input type="text" class="form-control" name="hobby3" required 
             value="<?php if ($hobby_to_update!=null) echo $hobby_to_update['hobby3'] ?>"
     />          
   </div>  
+  <div class="row mb-3 mx-3">
   Current Job Title:
     <input type="text" class="form-control" name="currentJobTitle" required 
             value="<?php if ($currentJob_to_update!=null) echo $currentJob_to_update['currentJobTitle'] ?>"
     />          
-  </div>  
+  </div> 
+  <div class="row mb-3 mx-3"> 
   Current Employer:
     <input type="text" class="form-control" name="currentEmployer" required 
             value="<?php if ($currentJob_to_update!=null) echo $currentJob_to_update['currentEmployer'] ?>"
@@ -223,6 +229,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <input type="text" class="form-control" name="parent2" 
     />          
   </div>  
+  <div class="row mb-3 mx-3"> 
+  Class Subject:
+    <input type="text" class="form-control" name="classSubject"
+    />          
+  </div> 
+  <div class="row mb-3 mx-3"> 
+  Class Number:
+    <input type="number" class="form-control" name="classNumber"
+    />          
+  </div> 
+  <div class="row mb-3 mx-3"> 
+  Class Title:
+    <input type="text" class="form-control" name="classTitle"
+    />          
+  </div> 
   <input type="submit" value="Add" name="btnAction" class="btn btn-dark" 
         title="insert a student" />  
   <input type="submit" value="Confirm update" name="btnAction" class="btn btn-dark" 

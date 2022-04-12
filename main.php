@@ -135,6 +135,21 @@ function addParentName($id, $parent1, $parent2)
 	$statement->closeCursor();
 } 
 
+function addClass($id, $classSubject, $classNumber, $classTitle)
+{
+	global $db; 
+	$query = "insert into Class (id, classSubject, classNumber, classTitle) values(:id, :classSubject, :classNumber, :classTitle)";
+	$statement = $db->prepare($query);
+
+	$statement->bindValue(':id', $id);
+	$statement->bindvalue(':classSubject', $classSubject);
+	$statement->bindValue(':classNumber', $classNumber);
+	$statement->bindValue(':classTitle', $classTitle);
+	$statement->execute();
+	// release; free the connection to the server so other sql statements may be issued 
+	$statement->closeCursor();
+} 
+
 
 function getAllStudents()
 {
@@ -390,6 +405,17 @@ function deleteParentName_byID($id)
 	global $id;
 
 	$query = "delete from ParentNames where id=:id";
+	$statement = $db->prepare($query); 
+	$statement->bindValue(':id', $id);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
+function deleteClass_byID($id)
+{
+	global $id;
+
+	$query = "delete from Class where id=:id";
 	$statement = $db->prepare($query); 
 	$statement->bindValue(':id', $id);
 	$statement->execute();
