@@ -4,7 +4,7 @@
 // $id = 20;
 
 function getMostRecentID($firstName, $lastName, $phoneNumber, $year, $email)
-{
+{ 
 	global $db;
 	$query = "select * from Student where firstName=:firstName and lastName=:lastName and phoneNumber = :phoneNumber and year=:year and email=:email";
 	$statement = $db->prepare($query);
@@ -13,6 +13,23 @@ function getMostRecentID($firstName, $lastName, $phoneNumber, $year, $email)
 	$statement->closeCursor();
 
 	return $result;	
+}
+function addUser($firstName, $lastName, $password)
+{
+    global $db;
+    $query = "insert into Login(password, firstName, lastName) values(:password, :firstName, :lastName)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':password', $lastName);
+    $statement->bindValue(':firstName', $firstName);
+    $statement->bindValue(':lastName', $lastName);
+    
+    $statement->execute();
+    
+    // $query = "select max(id) from Login";
+	// $statement = $db->prepare($query);
+	// $statement->execute();
+	// $result = $statement->fetch();   
+	$statement->closeCursor();	
 }
 
 function addStudent($firstName, $lastName, $phoneNumber, $year, $email, $major, $nationality, $trait1, $trait2, $hobby1, $hobby2, $hobby3, $currentJobTitle, $currentEmployer, $pastJobTitle, $pastEmployer, $siblingName, $parent1, $parent2, $classSubject, $classNumber, $classTitle)
@@ -356,9 +373,46 @@ function getStudent_byMajor($major)
 	return $results;	
 }
 
+function getStudentsbyYear($year)
+{
+	global $db;
+	$query = "select * from Student where year = :year";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':year', $year);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;	
+}
+
+function getStudentsByNationality($id)
+{
+	global $db;
+	$query = "select * FROM `Nationality`natural join `Student` WHERE Nationality.nationality = (SELECT nationality FROM `Student` natural join `Nationality` WHERE Nationality.id = :id)";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':id', $id);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;	
+}
+
+function getStudentsByMajor($id)
+{
+	global $db;
+	$query = "select * FROM `Major`natural join `Student` WHERE Major.major = (SELECT major FROM `Student` natural join `Major` WHERE Major.id = :id)";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':id', $id);
+	$statement->execute();
+	$results = $statement->fetchAll();   
+	$statement->closeCursor();
+	return $results;	
+}
+
 function updateStudent($id, $firstName, $lastName, $phoneNumber, $year, $email)
 {
 	global $db;
+	// $query = "update Student set year=:year where id=:id";
 	$query = "update Student set firstName=:firstName, lastName=:lastName, phoneNumber=:phoneNumber, year=:year, email=:email where id=:id";
 	$statement = $db->prepare($query);
 	$statement->bindValue(':id', $id); 

@@ -17,7 +17,7 @@ $student_to_update = null;
 $major_to_update = null;
 $hobby_to_update = null;
 $currentJob_to_update = null;
-
+$list_of_matches = $list_of_students;
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
@@ -59,7 +59,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $list_of_students = getAllStudents();
 
     }
+    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Search By Year")
+    {
+      $list_of_matches  = getStudentsbyYear(4);
+     
+      // echo 1;
+    }
 
+    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Search By Nationality")
+    {
+      $list_of_matches= getStudentsByNationality(2);
+      // echo 1;
+    }
+    else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Search By Major")
+    {
+      $list_of_matches= getStudentsByMajor(3);
+      // echo 1;
+    }
+  
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Confirm update")
     {
       updateStudent($_POST['id'], $_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
@@ -301,6 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <?php endforeach; ?>
 </table>
 
+
 <!-- <h2>List of Majors</h2>
 <table class="w3-table w3-bordered w3-card-4" style="width:90%">
   <thead>
@@ -330,6 +348,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <!-- for local -->
   <!-- <script src="your-js-file.js"></script> -->  
   
-</div>    
+</div>  
+
+<div class="container">
+  <br>
+
+  <hr/>
+  <br>
+  <h1>Search for Students Similar to You</h1>  
+
+  <form name="mainForm" action="simpleform.php" method="post">     
+  <input type="submit" name="btnAction" class="btn btn-dark" value="Search By Year"/>  
+  <input type="submit" name="btnAction" class="btn btn-dark" value = "Search By Nationality"/>
+  <input type="submit" name="btnAction" class="btn btn-dark" value = "Search By Major"/>   
+
+  <br>
+  <table style = "<?php if ($list_of_matches==null) display: none;?>" class="w3-table w3-bordered w3-card-4" style="width:75% ">
+  <thead>
+  <tr style="background-color:#B0B0B0"> 
+    <th width="11%">First Name</th>   
+    <th width="11%">Last Name</th>     
+    <th width="11%">Phone Number</th>        
+    <th width="11%">Year</th> 
+    <th width="11%">Email</th> 
+  </tr>
+  </thead>
+  <?php foreach ($list_of_matches as $match):  ?>
+  <tr>
+    <td><?php echo $match['firstName']; ?></td>
+    <td><?php echo $match['lastName']; ?></td>
+    <td><?php echo $match['phoneNumber']; ?></td>
+    <td><?php echo $match['year']; ?></td>
+    <td><?php echo $match['email']; ?></td>
+  </tr>
+  <?php endforeach; ?>
+  
+</table>
+</form>    
 </body>
 </html>
