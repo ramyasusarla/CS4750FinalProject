@@ -6,7 +6,7 @@ function addUser($firstName, $lastName, $password)
     global $db;
     $query = "insert into Login(password, firstName, lastName) values(:password, :firstName, :lastName)";
     $statement = $db->prepare($query);
-    $statement->bindValue(':password', $lastName);
+    $statement->bindValue(':password', $password);
     $statement->bindValue(':firstName', $firstName);
     $statement->bindValue(':lastName', $lastName);
     
