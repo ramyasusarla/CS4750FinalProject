@@ -12,27 +12,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Submit")
     {
-        $vp = validate($_POST['password']);
         $vf = validate($_POST['firstName']);
         $vl = validate($_POST['lastName']);
+        $vp = validate($_POST['password']);
 
-        $check = getUser_Login($vp, $vf, $vl);
+        $check = getUser_Login($vf, $vl, $vp);
 
-        echo "<pre>";
-        print_r($check[0]);
-        echo "</pre>";
-
-        if ($check[0] == null)
+        if (empty($check))
         {   
-            $account_exist = false;
+
             addUser($vf, $vl, $vp);
             header("Location: login.php");
         }
         else
         {
             $account_exist = true;
+            header('Location: signup.php?error=Account exists proceed to Login');
             echo("Account already exists, proceed to Login");
-            header('Location: signup.php');
         }
     }   
 }

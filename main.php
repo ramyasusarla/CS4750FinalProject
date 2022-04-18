@@ -46,12 +46,7 @@ function addUser($firstName, $lastName, $password)
     $statement->bindValue(':password', $password);
     $statement->bindValue(':firstName', $firstName);
     $statement->bindValue(':lastName', $lastName);
-    $statement->execute();
-    
-    // $query = "select max(id) from Login";
-	// $statement = $db->prepare($query);
-	// $statement->execute();
-	// $result = $statement->fetch();   
+    $statement->execute();   
 	$statement->closeCursor();	
 }
 

@@ -44,8 +44,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 $result = getUser_login($vp, $vf, $vl);
 
-                // $row = getUser_login($_POST['firstName'], $_POST['lastName'], $_POST['password']);
-
                 //print_r($row);
                 // print($_POST['password']);
                 // print($_POST['firstName']);

@@ -2,6 +2,8 @@
 require('connect-db.php');
 require('main.php');
 
+session_start();
+
 $list_of_students = getAllStudents();
 $list_of_majors = getAllMajors();
 $list_of_nationalities = getAllNationalities();
@@ -147,7 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Basic Student Information</h1>  
+  <h1>Hello, <?php echo $_SESSION['firstName']; ?> <?php echo $_SESSION['lastName']; ?></h1>
+  <h2>Basic Student Information</h2>  
 
   <form name="mainForm" action="simpleform.php" method="post">    
   <div class="row mb-3 mx-3">
