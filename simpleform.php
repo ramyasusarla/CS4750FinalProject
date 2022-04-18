@@ -20,13 +20,15 @@ $major_to_update = null;
 $hobby_to_update = null;
 $currentJob_to_update = null;
 $list_of_matches = $list_of_students;
+$add_num = 0;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add")
+    if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Add" && $add_num==0)
     {
 
-        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email'], $_POST['major'], $_POST['nationality'], $_POST['trait1'], $_POST['trait2'], $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3'], $_POST['currentJobTitle'], $_POST['currentEmployer'], $_POST['pastJobTitle'], $_POST['pastEmployer'], $_POST['siblingName'], $_POST['parent1'], $_POST['parent2'], $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle']);
-
+        addStudent($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email'], $_POST['major'], $_POST['nationality'], $_POST['trait1'], $_POST['trait2'], $_POST['hobby1'], $_POST['hobby2'], $_POST['hobby3'], $_POST['currentJobTitle'], $_POST['currentEmployer'], $_POST['pastJobTitle'], $_POST['pastEmployer'], $_POST['siblingName'], $_POST['parent1'], $_POST['parent2'], $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle'], $_SESSION['password']);
+        $add_num = 1;
         // $most_recent_ID = getMostRecentID($_POST['firstName'], $_POST['lastName'], $_POST['phoneNumber'], $_POST['year'], $_POST['email']);
         // addMajor($most_recent_ID, $_POST['major']);
         // addNationality($most_recent_ID, $_POST['nationality']);
@@ -37,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         // addSiblingName($most_recent_ID, $_POST['siblingName']);
         // addParentNames($most_recent_ID, $_POST['parent1'], $_POST['parent2']);
         // addClass($most_recent_ID, $_POST['classSubject'], $_POST['classNumber'], $_POST['classTitle'])
+        $list_of_students = getAllStudents();
         
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
@@ -152,7 +155,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <h1>Hello, <?php echo $_SESSION['firstName']; ?> <?php echo $_SESSION['lastName']; ?></h1>
   <h2>Basic Student Information</h2>  
 
-  <form name="mainForm" action="simpleform.php" method="post">    
+  <form name="mainForm" action="simpleform.php" method="post"> 
+  <div class="row mb-3 mx-3">
+    ID:
+    <input type="text" class="form-control" readonly="readonly" name="id" required 
+            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
+    />            
+  </div>    
   <div class="row mb-3 mx-3">
     First Name:
     <input type="text" class="form-control" name="firstName" required 

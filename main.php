@@ -50,17 +50,18 @@ function addUser($firstName, $lastName, $password)
 	$statement->closeCursor();	
 }
 
-function addStudent($firstName, $lastName, $phoneNumber, $year, $email, $major, $nationality, $trait1, $trait2, $hobby1, $hobby2, $hobby3, $currentJobTitle, $currentEmployer, $pastJobTitle, $pastEmployer, $siblingName, $parent1, $parent2, $classSubject, $classNumber, $classTitle)
+function addStudent($firstName, $lastName, $phoneNumber, $year, $email, $major, $nationality, $trait1, $trait2, $hobby1, $hobby2, $hobby3, $currentJobTitle, $currentEmployer, $pastJobTitle, $pastEmployer, $siblingName, $parent1, $parent2, $classSubject, $classNumber, $classTitle, $password)
 {
 	global $db; 
 
-	$query = "insert into Student (firstName, lastName, phoneNumber, year, email) values(:firstName, :lastName, :phoneNumber, :year, :email)";
+	$query = "insert into Student (firstName, lastName, phoneNumber, year, email, password) values(:firstName, :lastName, :phoneNumber, :year, :email, :password)";
 	$statement = $db->prepare($query);
 	$statement->bindValue(':firstName', $firstName);
 	$statement->bindValue(':lastName', $lastName);
 	$statement->bindValue(':phoneNumber', $phoneNumber);
 	$statement->bindValue(':year', $year);
 	$statement->bindValue(':email', $email);
+	$statement->bindValue(':password', $password);
 	$statement->execute();
 
 	$query = "select max(id) from Student";
@@ -80,6 +81,37 @@ function addStudent($firstName, $lastName, $phoneNumber, $year, $email, $major, 
 	addParentNames($resultID, $parent1, $parent2);
 	addClass($resultID, $classSubject, $classNumber, $classTitle);
 } 
+
+// function addStudent($firstName, $lastName, $phoneNumber, $year, $email, $major, $nationality, $trait1, $trait2, $hobby1, $hobby2, $hobby3, $currentJobTitle, $currentEmployer, $pastJobTitle, $pastEmployer, $siblingName, $parent1, $parent2, $classSubject, $classNumber, $classTitle)
+// {
+// 	global $db; 
+
+// 	$query = "insert into Student (firstName, lastName, phoneNumber, year, email) values(:firstName, :lastName, :phoneNumber, :year, :email)";
+// 	$statement = $db->prepare($query);
+// 	$statement->bindValue(':firstName', $firstName);
+// 	$statement->bindValue(':lastName', $lastName);
+// 	$statement->bindValue(':phoneNumber', $phoneNumber);
+// 	$statement->bindValue(':year', $year);
+// 	$statement->bindValue(':email', $email);
+// 	$statement->execute();
+
+// 	$query = "select max(id) from Student";
+// 	$statement = $db->prepare($query);
+// 	$statement->execute();
+// 	$result = $statement->fetch();   
+// 	$statement->closeCursor();	
+// 	$resultID = $result[0];
+
+// 	addMajor($resultID, $major);	
+// 	addNationality($resultID, $nationality);
+// 	addTraits($resultID, $trait1, $trait2);
+// 	addHobbies($resultID, $hobby1, $hobby2, $hobby3);
+// 	addCurrentJob($resultID, $currentJobTitle, $currentEmployer);
+// 	addPastJob($resultID, $pastJobTitle, $pastEmployer);
+// 	addSiblingName($resultID, $siblingName);
+// 	addParentNames($resultID, $parent1, $parent2);
+// 	addClass($resultID, $classSubject, $classNumber, $classTitle);
+// } 
 
 function addMajor($id, $major)
 {
