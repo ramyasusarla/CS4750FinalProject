@@ -39,7 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {  
+      // $student_to_update = getStudent_byID($_POST['student_to_update']);
       $student_to_update = getStudent_byID($_POST['student_to_update']);
+
 
       //$major_to_update = getMajor_byID($_POST['major_to_update']);
 
@@ -147,13 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <div class="container">
   <h1>Basic Student Information</h1>  
 
-  <form name="mainForm" action="simpleform.php" method="post">  
-  <div class="row mb-3 mx-3">
-    ID:
-    <input type="text" class="form-control" name="id" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['id'] ?>"
-    />        
-  </div>   
+  <form name="mainForm" action="simpleform.php" method="post">    
   <div class="row mb-3 mx-3">
     First Name:
     <input type="text" class="form-control" name="firstName" required 
@@ -186,20 +182,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </div>  
   <div class="row mb-3 mx-3">
     Major:
-    <input type="text" class="form-control" name="major" required
-            value="<?php if ($student_to_update!=null) echo $student_to_update['major'] ?>"
+    <input type="text" class="form-control" name="major" 
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Nationality:
-    <input type="text" class="form-control" name="nationality" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['nationality'] ?>"
+    <input type="text" class="form-control" name="nationality"
     />          
   </div>  
   <div class="row mb-3 mx-3">
     Trait 1:
-    <input type="text" class="form-control" name="trait1" required 
-            value="<?php if ($student_to_update!=null) echo $student_to_update['trait1'] ?>"
+    <input type="text" class="form-control" name="trait1" 
     />          
   </div>  
   <div class="row mb-3 mx-3">

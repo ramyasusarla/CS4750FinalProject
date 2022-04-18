@@ -3,26 +3,49 @@
 // global $id;
 // $id = 20;
 
+function getUser_Login($firstName, $lastName, $password)
+{ 
+    global $db;
+    $query = "select * from Login where password=:password and firstName=:firstName and lastName=:lastName";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':password', $password);
+    $statement->bindValue(':firstName', $firstName);
+    $statement->bindValue(':lastName', $lastName);
+    $statement->execute();
+    $result = $statement->fetchAll();   
+    $statement->closeCursor();
+    return $result; 
+}
+
+function validate($data)
+{
+    $data = trim($data);
+	$data = stripslashes($data);
+	// $data = htmlspecialchars($data);
+	return $data;
+}
+
 function getMostRecentID($firstName, $lastName, $phoneNumber, $year, $email)
 { 
 	global $db;
 	$query = "select * from Student where firstName=:firstName and lastName=:lastName and phoneNumber = :phoneNumber and year=:year and email=:email";
 	$statement = $db->prepare($query);
 	$statement->execute();
-	$result = $statement->fetch();   
+	$result = $statement->fetchAll();   
 	$statement->closeCursor();
 
 	return $result;	
 }
+
 function addUser($firstName, $lastName, $password)
 {
     global $db;
+
     $query = "insert into Login(password, firstName, lastName) values(:password, :firstName, :lastName)";
     $statement = $db->prepare($query);
     $statement->bindValue(':password', $password);
     $statement->bindValue(':firstName', $firstName);
     $statement->bindValue(':lastName', $lastName);
-    
     $statement->execute();
     
     // $query = "select max(id) from Login";
@@ -332,6 +355,27 @@ function getStudent_byID($id)
 
 	return $results;	
 }
+
+// function getStudent_byAll($id, $firstName, $lastName, $phoneNumber, $year, $email)
+// {
+// 	global $db;
+// 	$query = "select * from Student where id = :id";
+
+// 	$statement = $db->prepare($query);
+// 	$statement->bindValue(':id', $id);
+// 	$statement->bindValue(':firstName', $firstName);
+// 	$statement->bindValue(':lastName', $lastName);
+// 	$statement->bindValue(':phoneNumber', $phoneNumber);
+// 	$statement->bindValue(':year', $year);
+// 	$statement->bindValue(':email', $email);
+// 	$statement->execute();
+
+// 	$results = $statement->fetch();   
+
+// 	$statement->closeCursor();
+
+// 	return $results;	
+// }
 
 function getMajor_byID($id)
 {
