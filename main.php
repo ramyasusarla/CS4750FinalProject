@@ -404,6 +404,20 @@ function getStudent_byID($id)
 // 	return $results;	
 // }
 
+function getID($password, $firstName, $lastName)
+{
+	global $db;
+	$query = "select id from Student natural join Login where Student.password = Login.password and Student.firstName = Login.firstName and Student.lastName = Login.lastName";
+	$statement = $db->prepare($query);
+	$statement->bindValue(':password', $password);
+	$statement->bindValue(':firstName', $firstName);
+	$statement->bindValue(':lastName', $lastName);
+	$statement->execute();
+	$results = $statement->fetch();   
+	$statement->closeCursor();
+	return $results;
+}
+
 function getMajor_byID($id)
 {
 	global $db;
@@ -456,7 +470,7 @@ function getStudentsbyYear($year)
 	return $results;	
 }
 
-function getStudentsByNationality($id)
+function getStudentsByNationality($nationality, $id)
 {
 	global $db;
 	$query = "select * FROM `Nationality`natural join `Student` WHERE Nationality.nationality = (SELECT nationality FROM `Student` natural join `Nationality` WHERE Nationality.id = :id)";
@@ -468,7 +482,7 @@ function getStudentsByNationality($id)
 	return $results;	
 }
 
-function getStudentsByMajor($id)
+function getStudentsByMajor($major, $id)
 {
 	global $db;
 	$query = "select * FROM `Major`natural join `Student` WHERE Major.major = (SELECT major FROM `Student` natural join `Major` WHERE Major.id = :id)";

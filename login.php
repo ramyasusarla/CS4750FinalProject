@@ -42,7 +42,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $vf = validate($_POST['firstName']);
                 $vl = validate($_POST['lastName']);
 
-                $result = getUser_login($vp, $vf, $vl);
+                $result = getUser_login($vf, $vl, $vp);
 
                 //print_r($row);
                 // print($_POST['password']);
@@ -62,9 +62,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 if ($row[0] === $vp && $row[1] === $vf && $row[2] === $vl) 
                 {
                     echo "Logged in!";
-                    $_SESSION['firstName'] = $row['firstName'];
-                    $_SESSION['lastName'] = $row['lastName'];
-                    $_SESSION['password'] = $row['password'];
+                    $_SESSION['firstName'] = $row['1'];
+                    $_SESSION['lastName'] = $row['2'];
+                    $_SESSION['password'] = $row['0'];
                     // $_SESSION['id'] = $row['id'];
                     header("Location: simpleform.php");
                     exit();
